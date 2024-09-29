@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"strings"
 
-	"Proxy/pkg/domain/models"
+	"Proxy/internal/domain/models"
 )
 
 func Request(r *http.Request) models.ParsedRequest {

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"Proxy/pkg/repository/mongodb"
+	"Proxy/internal/repository/mongodb"
 	handler "Proxy/proxy/http"
 	"log"
 	"net/http"

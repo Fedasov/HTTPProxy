@@ -12,8 +12,8 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"Proxy/pkg/domain/models"
-	"Proxy/pkg/repository/mongodb"
+	"Proxy/internal/domain/models"
+	"Proxy/internal/repository/mongodb"
 )
 
 var payloads = []string{
@@ -34,12 +34,12 @@ func NewHandler(repo *mongodb.Repo) *Handler {
 
 // HandleGetAllRequests
 // @Summary Get all requests
-// @Description Возвращает список всех запросов
+// @Description Returns a list of all requests
 // @Tags requests
 // @Produce json
 // @Success 200 {array} models.Request
 // @Failure 500 {string} string "Failed to fetch requests"
-// @Router /api/v1/requests [get]
+// @Router /requests [get]
 func (h *Handler) GetAllRequests(w http.ResponseWriter, r *http.Request) {
 	requests, err := h.Repo.GetAllRequests(context.TODO())
 	if err != nil {
@@ -52,14 +52,14 @@ func (h *Handler) GetAllRequests(w http.ResponseWriter, r *http.Request) {
 
 // HandleGetRequestByID
 // @Summary Get request by ID
-// @Description Возвращает запром по ID
+// @Description Returns a request by ID
 // @Tags requests
 // @Param id path string true "Request ID"
 // @Produce json
 // @Success 200 {object} models.Request
 // @Failure 400 {string} string "Invalid request ID"
 // @Failure 404 {string} string "Request not found"
-// @Router /api/v1/requests/{id} [get]
+// @Router /requests/{id} [get]
 func (h *Handler) GetRequestByID(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := primitive.ObjectIDFromHex(vars["id"])
@@ -79,7 +79,7 @@ func (h *Handler) GetRequestByID(w http.ResponseWriter, r *http.Request) {
 
 // HandleRepeatRequest
 // @Summary Repeat a request by ID
-// @Description Повторно отправляет запрос и возвращает результат
+// @Description Resends the request and returns the result
 // @Tags requests
 // @Param id path string true "Request ID"
 // @Produce json
@@ -87,7 +87,7 @@ func (h *Handler) GetRequestByID(w http.ResponseWriter, r *http.Request) {
 // @Failure 400 {string} string "Invalid request ID"
 // @Failure 404 {string} string "Request not found"
 // @Failure 500 {string} string "Failed to repeat request"
-// @Router /api/v1/repeat/{id} [post]
+// @Router /repeat/{id} [post]
 func (h *Handler) RepeatRequest(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id, err := primitive.ObjectIDFromHex(vars["id"])
@@ -142,7 +142,7 @@ func execute(request *models.Request) (string, error) {
 	cmd := exec.Command("bash", "-c", s)
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		return "", fmt.Errorf("ошибка при выполнении команды curl: %v, вывод: %s", err, out)
+		return "", fmt.Errorf("error when executing the curl command: %v, Output: %s", err, out)
 	}
 
 	res := strings.Split(string(out), "<html>")

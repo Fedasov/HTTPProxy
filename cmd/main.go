@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	httpSwagger "github.com/swaggo/http-swagger"
 	"log"
 	"net/http"
 	"time"
@@ -14,10 +15,8 @@ import (
 
 	_ "github.com/jackc/pgx/stdlib"
 
-	hand "Proxy/pkg/api/http"
-	repo "Proxy/pkg/repository/mongodb"
-
-	httpSwagger "github.com/swaggo/http-swagger"
+	hand "Proxy/internal/pkg/http"
+	repo "Proxy/internal/repository/mongodb"
 
 	_ "Proxy/docs"
 )
@@ -69,16 +68,16 @@ func InitHandler(collection *mongo.Collection) *hand.Handler {
 func setupRouter(collection *mongo.Collection) http.Handler {
 	router := mux.NewRouter()
 
-	api := setupLogRouter(collection)
-	router.PathPrefix("/api/v1").Handler(api)
-
 	router.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
+
+	api := setupLogRouter(collection)
+	router.PathPrefix("/").Handler(api)
 
 	return router
 }
 
 func setupLogRouter(collection *mongo.Collection) http.Handler {
-	router := mux.NewRouter().PathPrefix("/api/v1").Subrouter()
+	router := mux.NewRouter() //.PathPrefix("/pkg/v1").Subrouter()
 
 	handler := InitHandler(collection)
 

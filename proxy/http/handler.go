@@ -1,8 +1,8 @@
 package http
 
 import (
-	"Proxy/pkg/domain/parser"
-	"Proxy/pkg/repository/mongodb"
+	"Proxy/internal/domain/parser"
+	"Proxy/internal/repository/mongodb"
 	"bytes"
 	"context"
 	"go.mongodb.org/mongo-driver/mongo"

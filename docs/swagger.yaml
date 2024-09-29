@@ -54,9 +54,9 @@ info:
   title: API Proxy
   version: "1.0"
 paths:
-  /api/v1/repeat/{id}:
+  /repeat/{id}:
     post:
-      description: Повторно отправляет запрос и возвращает результат
+      description: Resends the request and returns the result
       parameters:
       - description: Request ID
         in: path
@@ -85,9 +85,9 @@ paths:
       summary: Repeat a request by ID
       tags:
       - requests
-  /api/v1/requests:
+  /requests:
     get:
-      description: Возвращает список всех запросов
+      description: Returns a list of all requests
       produces:
       - application/json
       responses:
@@ -104,9 +104,9 @@ paths:
       summary: Get all requests
       tags:
       - requests
-  /api/v1/requests/{id}:
+  /requests/{id}:
     get:
-      description: Возвращает запром по ID
+      description: Returns a request by ID
       parameters:
       - description: Request ID
         in: path

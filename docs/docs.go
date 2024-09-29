@@ -15,9 +15,9 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/v1/repeat/{id}": {
+        "/repeat/{id}": {
             "post": {
-                "description": "Повторно отправляет запрос и возвращает результат",
+                "description": "Resends the request and returns the result",
                 "produces": [
                     "application/json"
                 ],
@@ -62,9 +62,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/requests": {
+        "/requests": {
             "get": {
-                "description": "Возвращает список всех запросов",
+                "description": "Returns a list of all requests",
                 "produces": [
                     "application/json"
                 ],
@@ -91,9 +91,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/requests/{id}": {
+        "/requests/{id}": {
             "get": {
-                "description": "Возвращает запром по ID",
+                "description": "Returns a request by ID",
                 "produces": [
                     "application/json"
                 ],

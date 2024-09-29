@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"time"
 
-	"Proxy/pkg/domain/models"
+	"Proxy/internal/domain/models"
 )
 
 type Repo struct {
