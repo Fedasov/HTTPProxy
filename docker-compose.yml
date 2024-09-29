@@ -1,15 +1,50 @@
 version: '3.8'
+
+networks:
+  deploy-guide-dev:
+    driver: bridge
+
 services:
-  # api:
-  #   image: 'golang:1.22'
-  #   ports:
-  #     - '8000:8000'
-  proxy:
-    image: 'golang:1.22'
+  mongo:
+    image: mongo:latest
+    container_name: mongo-container
     ports:
-      - '8080:8080'
+      - "27017:27017"
     volumes:
-      - '${PWD}/proxy:/app'
-    restart: always
-    working_dir: '/app'
-    command: sh -c 'go run ./cmd/proxy/main.go'
+      - mongo-data:/data/db
+    networks:
+      - deploy-guide-dev
+    restart: unless-stopped
+
+  go-app-8080:
+    build:
+      context: .
+      dockerfile: ./proxy/Dockerfile
+    container_name: go-app-8080
+    ports:
+      - "8080:8080"
+    networks:
+      - deploy-guide-dev
+    environment:
+      - MONGO_URI=mongodb://mongo:27017
+    depends_on:
+      - mongo
+    restart: unless-stopped
+
+  go-app-8000:
+    build:
+      context: .
+      dockerfile: ./cmd/Dockerfile
+    container_name: go-app-8000
+    ports:
+      - "8000:8000"
+    networks:
+      - deploy-guide-dev
+    environment:
+      - MONGO_URI=mongodb://mongo:27017
+    depends_on:
+      - mongo
+    restart: unless-stopped
+
+volumes:
+  mongo-data:
